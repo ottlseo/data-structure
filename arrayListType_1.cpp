@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #define MAX_LIST_SIZE 100
 
-typedef int element; //항목 정의
+typedef int element; //항목 정의 //element 라는 새로운 자료형
 typedef struct {
 	element array[MAX_LIST_SIZE]; //배열- 항목 데이터
 	int size; //구조체 하나에 저장된 항목들의 개수
@@ -33,7 +33,7 @@ element get_element(ArrayListType* A, int pos) { //구조체와 위치 입력하
 }
 void print_list(ArrayListType* A) {
 	int i;
-	for (i = 0; i < A->size; i++)
+	for (i = 0; i < (A->size)-1; i++)
 		printf("%d->", A->array[i]);
 	printf("%d\n", A->array[i]); //마지막 항목 출력(화살표 x)
 }
@@ -41,14 +41,16 @@ void insert_last(ArrayListType* A, element item) { //마지막에 삽입
 	if (A->size >= MAX_LIST_SIZE) {
 		error("list overflow");
 	}
-	A->array[A->size++] = item; //마지막 방에 넣고 size 증가
+	A->array[A->size] = item; //마지막 방에 넣고 size 증가
+	A->size++;
 }
 void insert(ArrayListType* A, int location, element item) {
 	if (!is_full(A) && (location >= 0) && (location <= A->size)) {
+			
 		for (int i = (A->size - 1); i >= location; i--)
 			A->array[i + 1] = A->array[i]; //하나씩 뒤로 밀기
 		A->array[location] = item; //item 삽입
-		A->size++;
+		(A->size)++;
 	}
 }
 element del(ArrayListType* A, int location) {
@@ -66,24 +68,24 @@ int main(void) {
 	ArrayListType list; //배열 아님! 구조체 변수
 	init(&list); //list의 주소 전달. (list.size=0;)
 	
-	insert(&list, 0, 10);
-	printf("\n0번째 위치에 10 추가"); //추가하고 size++ 됨
+	insert_last(&list, 10);
+	printf("\n0번째 위치에 10 추가\n"); //추가하고 size++ 됨
 	print_list(&list); //리스트 출력
 
 	insert(&list, 0, 20);
-	printf("\n0번째 위치에 20 추가");
+	printf("\n0번째 위치에 20 추가\n");
 	print_list(&list);
 	
 	insert(&list, 0, 30);
-	printf("\n0번째 위치에 30 추가");
+	printf("\n0번째 위치에 30 추가\n");
 	print_list(&list);
 
 	insert_last(&list, 40); //맨 뒤에 40 추가~
-	printf("\n맨 끝에 40 추가~~");
+	printf("\n맨 끝에 40 추가~~\n");
 	print_list(&list);
 
 	del(&list, 0); //0번째 원소 삭제
-	printf("0번째 원소 삭제\n");
+	printf("\n0번째 원소 삭제\n");
 	print_list(&list);
 
 	return 0;
