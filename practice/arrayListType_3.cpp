@@ -9,6 +9,7 @@ typedef struct ListNode {
 }ListNode;
 
 ListNode* insert_first(ListNode* head, element value);
+
 void print_list(ListNode* head) { //head부터 링크로 연결된 노드의 data를 계속 출력
 	for (ListNode* p = head; p != NULL; p = p->link) //head에서부터 NULL이 되기 전까지, 
 		printf("%3d ->", p->data);
