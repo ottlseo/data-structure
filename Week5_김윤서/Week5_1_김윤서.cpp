@@ -32,6 +32,7 @@ int main() {
 		printf("십진수 입력 <종료: 0 이하 입력>\n");
 		scanf_s("%d", &input); //입력 계속 받고 0이하이면 반복문 빠져나가도록
 	}
+	free(s);
 	return 0;
 }
 void init(StackType* s) { //스택 초기화 함수
