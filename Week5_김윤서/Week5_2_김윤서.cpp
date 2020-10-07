@@ -5,49 +5,49 @@
 typedef char element;
 typedef struct stack {
 	element data[MAX];
-	int top; //ÃÖ°íÃş ¿ø¼ÒÀÇ ÀÎµ¦½º
+	int top; //ìµœê³ ì¸µ ì›ì†Œì˜ ì¸ë±ìŠ¤
 }StackType;
 
 void printInfo();
-void init(StackType* s); //½ºÅÃ ÃÊ±âÈ­ ÇÔ¼ö
-void error(const char* message); //¿¡·¯ Ãâ·Â ÇÔ¼ö
+void init(StackType* s); //ìŠ¤íƒ ì´ˆê¸°í™” í•¨ìˆ˜
+void error(const char* message); //ì—ëŸ¬ ì¶œë ¥ í•¨ìˆ˜
 bool is_full(StackType* s);
 bool is_empty(StackType* s);
-element pop(StackType* s); //pop ÇÔ¼ö
-void push(StackType* s, element value); //push ÇÔ¼ö
-void count_ch(char* string); //¹®ÀÚ¿­À» ÀÎÀÚ·Î Àü´Ş¹Ş¾Æ Ä«¿îÆ®ÇÏ°í Ãâ·ÂÇÏ´Â ÇÔ¼ö
+element pop(StackType* s); //pop í•¨ìˆ˜
+void push(StackType* s, element value); //push í•¨ìˆ˜
+void count_ch(char* string); //ë¬¸ìì—´ì„ ì¸ìë¡œ ì „ë‹¬ë°›ì•„ ì¹´ìš´íŠ¸í•˜ê³  ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜
 
 int main() {
-	printInfo(); //Á¤º¸ Ãâ·Â
+	printInfo(); //ì •ë³´ ì¶œë ¥
 	char string[MAX];
 
-	printf("¹İº¹µÇ´Â ¾ËÆÄºªÀ¸·Î ±¸¼ºµÈ ¹®ÀÚ¿­ ÀÔ·Â(Á¾·á½Ã '0'ÀÔ·Â)\n");
+	printf("ë°˜ë³µë˜ëŠ” ì•ŒíŒŒë²³ìœ¼ë¡œ êµ¬ì„±ëœ ë¬¸ìì—´ ì…ë ¥(ì¢…ë£Œì‹œ '0'ì…ë ¥)\n");
 	gets_s(string);
 	count_ch(string);
 
 	return 0;
 }
 
-void init(StackType* s) { //½ºÅÃ ÃÊ±âÈ­ ÇÔ¼ö
+void init(StackType* s) { //ìŠ¤íƒ ì´ˆê¸°í™” í•¨ìˆ˜
 	s->top = -1;
 }
 void error(const char* message) {
-	fprintf(stderr, message); //¿À·ù ¸Ş½ÃÁö Ãâ·Â ÇÔ¼ö
+	fprintf(stderr, message); //ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥ í•¨ìˆ˜
 }
-bool is_full(StackType* s) { //²Ë Ã¡´ÂÁö È®ÀÎ
+bool is_full(StackType* s) { //ê½‰ ì°¼ëŠ”ì§€ í™•ì¸
 	if (s->top == MAX) { return true; }
 	else { return false; }
 }
-bool is_empty(StackType* s) { //ºñ¾îÀÖ³ª È®ÀÎÇÏ´Â ÇÔ¼ö
+bool is_empty(StackType* s) { //ë¹„ì–´ìˆë‚˜ í™•ì¸í•˜ëŠ” í•¨ìˆ˜
 	if (s->top == -1) { return true; }
 	else { return false; }
 }
-element pop(StackType* s) { // pop ÇÔ¼ö
+element pop(StackType* s) { // pop í•¨ìˆ˜
 	if (is_empty(s)) {
 		error("Stack Empty");
 		exit(1);
 	}
-	else return (s->data[s->top--]); //topÀÌ ³ªÁß¿¡ --, data´Â ¹è¿­ÀÌ¹Ç·Î []
+	else return (s->data[s->top--]); //topì´ ë‚˜ì¤‘ì— --, dataëŠ” ë°°ì—´ì´ë¯€ë¡œ []
 }
 void push(StackType* s, element value) {
 	if (is_full(s)) {
@@ -55,44 +55,41 @@ void push(StackType* s, element value) {
 		return;
 	}
 	else 
-		s->data[++(s->top)] = value; // ++¸ÕÀú, s->dataÀÇ top °ª¿¡ value ÀúÀå.
+		s->data[++(s->top)] = value; // ++ë¨¼ì €, s->dataì˜ top ê°’ì— value ì €ì¥.
 }
 element peek(StackType* s) {
 	if (is_empty(s)) {
 		error("Stack Empty");
 		exit(1);
 	}
-	else return (s->data[s->top]); //top °¨¼Ò½ÃÅ°Áö ¾Ê°í °ª¸¸ ¹İÈ¯
+	else return (s->data[s->top]); //top ê°ì†Œì‹œí‚¤ì§€ ì•Šê³  ê°’ë§Œ ë°˜í™˜
 }
 void count_ch(char* string) {
-	int count = 0; //°¢ ¹®ÀÚ¸¦ Ä«¿îÆ®ÇÒ º¯¼ö
-	StackType s; //½ºÅÃ º¯¼ö Á¤ÀÇ
-	init(&s); // ÃÊ±âÈ­
+	int count = 0; //ê° ë¬¸ìë¥¼ ì¹´ìš´íŠ¸í•  ë³€ìˆ˜
+	StackType s; //ìŠ¤íƒ ë³€ìˆ˜ ì •ì˜
+	init(&s); // ì´ˆê¸°í™”
 	
-	push(&s, *string); //Ã¹¹øÂ° ¹®ÀÚ¸¦ push
-	string++; //´ÙÀ½¹®ÀÚ·Î ÀÌµ¿
+	push(&s, *string); //ì²«ë²ˆì§¸ ë¬¸ìë¥¼ push
+	string++; //ë‹¤ìŒë¬¸ìë¡œ ì´ë™
 
-	while (*string) { //stringÀÌ ³²¾ÆÀÖÀ» ¶§±îÁö ¹İº¹
-		if (*string == peek(&s)) { //¹æ±İ ³ÖÀº ¿ø¼Ò¿Í °°À¸¸é °è¼Ó push
-			push(&s, *string);
-			count++; // º¯¼ö count ++
-		}
-		else { //´Ù¸¥ ¹®ÀÚ ³ª¿ÔÀ» °æ¿ì, ¹®ÀÚ¸¦ count ¼ö¿Í ÇÔ²² Ãâ·Â. ÀÌÈÄ ½ºÅÃ°ú Ä«¿îÆ®º¯¼ö ÃÊ±âÈ­
+	while (*string) { //stringì´ ë‚¨ì•„ìˆì„ ë•Œê¹Œì§€ ë°˜ë³µ
+		if (*string != peek(&s)) { //ë‹¤ë¥¸ ë¬¸ì ë‚˜ì™”ì„ ê²½ìš°, ë¬¸ìë¥¼ count ìˆ˜ì™€ í•¨ê»˜ ì¶œë ¥. ì´í›„ ìŠ¤íƒê³¼ ì¹´ìš´íŠ¸ë³€ìˆ˜ ì´ˆê¸°í™”
 			printf("%d%c", count, peek(&s));
 			init(&s);
 			count = 0;
-
-			push(&s, *string);
-			count++; // º¯¼ö count ++
 		}
-		string++; // ´ÙÀ½ ¹®ÀÚ·Î ÀÌµ¿
+		push(&s, *string);
+		count++; // ë³€ìˆ˜ count ++	
+		string++; // ë‹¤ìŒ ë¬¸ìë¡œ ì´ë™
 	}
+	if (!is_empty(&s)) { printf("%d%c", count, peek(&s)); } 
+	// í•œ ë¬¸ìë¡œë§Œ ì´ë£¨ì–´ì§„ ì…ë ¥(aaaaaaaaa) ë“¤ì–´ì™”ì„ ê²½ìš°
 }
 
 void printInfo(void) {
 	printf("====================\n");
-	printf("ÇĞ°ú: »çÀÌ¹öº¸¾ÈÀü°ø\n");
-	printf("ÇĞ¹ø: 1971063\n");
-	printf("¼º¸í: ±èÀ±¼­\n");
+	printf("í•™ê³¼: ì‚¬ì´ë²„ë³´ì•ˆì „ê³µ\n");
+	printf("í•™ë²ˆ: 1971063\n");
+	printf("ì„±ëª…: ê¹€ìœ¤ì„œ\n");
 	printf("====================\n");
 }
