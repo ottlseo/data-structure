@@ -5,55 +5,56 @@
 typedef int element;
 typedef struct stack {
 	element data[MAX];
-	int top; //ÃÖ°íÃş ¿ø¼ÒÀÇ ÀÎµ¦½º
+	int top; //ìµœê³ ì¸µ ì›ì†Œì˜ ì¸ë±ìŠ¤
 }StackType;
 
 void printInfo();
-void init(StackType* s); //½ºÅÃ ÃÊ±âÈ­ ÇÔ¼ö
-void error(const char* message); //¿¡·¯ Ãâ·Â ÇÔ¼ö
+void init(StackType* s); //ìŠ¤íƒ ì´ˆê¸°í™” í•¨ìˆ˜
+void error(const char* message); //ì—ëŸ¬ ì¶œë ¥ í•¨ìˆ˜
 bool is_full(StackType* s); 
 bool is_empty(StackType* s);
-element pop(StackType* s); //pop ÇÔ¼ö
-void push(StackType* s, element value); //push ÇÔ¼ö
-void dec_to_bin(int decimal); //½ÊÁø¼ö¸¦ ÀÌÁø¼ö·Î º¯È¯ÇØ Ãâ·ÂÇÏ´Â ÇÔ¼ö
+element pop(StackType* s); //pop í•¨ìˆ˜
+void push(StackType* s, element value); //push í•¨ìˆ˜
+void dec_to_bin(StackType* s, int decimal); //ì‹­ì§„ìˆ˜ë¥¼ ì´ì§„ìˆ˜ë¡œ ë³€í™˜í•´ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜
 
 int main() {
-	int input; //ÀÔ·Â¹ŞÀ» Á¤¼ö. ÃÊ±â°ª ¾Æ¹«°Å³ª ÁöÁ¤
-	
-	printInfo(); //Á¤º¸ Ãâ·Â
-	printf("½ÊÁø¼ö ÀÔ·Â <Á¾·á: 0 ÀÌÇÏ ÀÔ·Â>\n");
+	int input; //ì…ë ¥ë°›ì„ ì •ìˆ˜. ì´ˆê¸°ê°’ ì•„ë¬´ê±°ë‚˜ ì§€ì •
+	StackType* s = (StackType*)malloc(sizeof(StackType)); //ìŠ¤íƒ í¬ì¸í„° ìƒì„±
+
+	printInfo(); //ì •ë³´ ì¶œë ¥
+	printf("ì‹­ì§„ìˆ˜ ì…ë ¥ <ì¢…ë£Œ: 0 ì´í•˜ ì…ë ¥>\n");
 	scanf_s("%d", &input);
 	
-	while (input > 0) {
-		dec_to_bin(input);
+	while (input > 0) { //0ì´í•˜ ì…ë ¥ ì‹œ ì¢…ë£Œ
+		dec_to_bin(s, input); // ì´ì§„ìˆ˜ë¡œ ë³€í™˜í•´ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜
 		printf("\n\n");
 
-		printf("½ÊÁø¼ö ÀÔ·Â <Á¾·á: 0 ÀÌÇÏ ÀÔ·Â>\n");
-		scanf_s("%d", &input);
+		printf("ì‹­ì§„ìˆ˜ ì…ë ¥ <ì¢…ë£Œ: 0 ì´í•˜ ì…ë ¥>\n");
+		scanf_s("%d", &input); //ì…ë ¥ ê³„ì† ë°›ê³  0ì´í•˜ì´ë©´ ë°˜ë³µë¬¸ ë¹ ì ¸ë‚˜ê°€ë„ë¡
 	}
 	return 0;
 }
-void init(StackType* s) { //½ºÅÃ ÃÊ±âÈ­ ÇÔ¼ö
+void init(StackType* s) { //ìŠ¤íƒ ì´ˆê¸°í™” í•¨ìˆ˜
 	s->top = -1;
 }
 void error(const char* message) {
-	fprintf(stderr, message); //¿À·ù ¸Ş½ÃÁö Ãâ·Â ÇÔ¼ö
+	fprintf(stderr, message); //ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥ í•¨ìˆ˜
 }
-bool is_full(StackType* s) {
+bool is_full(StackType* s) { //ê½‰ ì°¼ëŠ”ì§€ í™•ì¸
 	if (s->top == MAX) { return true; }
 	else { return false; }
 }
-bool is_empty(StackType* s) {
+bool is_empty(StackType* s) { //ë¹„ì–´ìˆë‚˜ í™•ì¸í•˜ëŠ” í•¨ìˆ˜
 	if (s->top == -1) { return true; }
 	else { return false; }
 }
-element pop(StackType* s) {
+element pop(StackType* s) { // pop í•¨ìˆ˜
 	if (is_empty(s)) {
 		error("Stack Empty");
 		exit(1);
 	}
 	else {
-		return (s->data[s->top--]); //topÀÌ ³ªÁß¿¡ --, data´Â ¹è¿­ÀÌ¹Ç·Î []
+		return (s->data[s->top--]); //topì´ ë‚˜ì¤‘ì— --, dataëŠ” ë°°ì—´ì´ë¯€ë¡œ []
 	}
 }
 void push(StackType* s, element value) {
@@ -62,25 +63,24 @@ void push(StackType* s, element value) {
 		return;
 	}
 	else {
-		s->data[++(s->top)] = value; // ++¸ÕÀú, s->dataÀÇ top °ª¿¡ value ÀúÀå.
+		s->data[++(s->top)] = value; // ++ë¨¼ì €, s->dataì˜ top ê°’ì— value ì €ì¥.
 	}
 }
-void dec_to_bin(int decimal) {
-	int r; //³ª¸ÓÁö
-	StackType s;
-	init(&s); //½ºÅÃ »ı¼ºÇÏ°í ÃÊ±âÈ­
+void dec_to_bin(StackType *s,int decimal) {
+	int r; //ë‚˜ë¨¸ì§€
+	init(s); //ìŠ¤íƒ ìƒì„±í•˜ê³  ì´ˆê¸°í™”
 	while (decimal != 0) {
 		r = decimal % 2;
-		push(&s, r); //½ºÅÃ¿¡ ³ª¸ÓÁö¸¦ ³Ö¾îÁØ´Ù
-		decimal /= 2; //2·Î ³ª´« ¸òÀ¸·Î °è¼Ó ¹İº¹. ¸òÀÌ 0ÀÌ µÉ¶§±îÁö.
+		push(s, r); //ìŠ¤íƒì— ë‚˜ë¨¸ì§€ë¥¼ ë„£ì–´ì¤€ë‹¤
+		decimal /= 2; //2ë¡œ ë‚˜ëˆˆ ëª«ìœ¼ë¡œ ê³„ì† ë°˜ë³µ. ëª«ì´ 0ì´ ë ë•Œê¹Œì§€.
 	}
-	printf("ÀÌÁø¼ö Ç¥Çö: ");
-	while (!is_empty(&s)) { printf("%d", pop(&s)); }
+	printf("ì´ì§„ìˆ˜ í‘œí˜„: ");
+	while (!is_empty(s)) { printf("%d", pop(s)); } //ìŠ¤íƒì— ìˆëŠ” ìˆ«ì ëª¨ë‘ popí•´ì„œ ì¶œë ¥
 }
 void printInfo(void) {
 	printf("====================\n");
-	printf("ÇĞ°ú: »çÀÌ¹öº¸¾ÈÀü°ø\n");
-	printf("ÇĞ¹ø: 1971063\n");
-	printf("¼º¸í: ±èÀ±¼­\n");
+	printf("í•™ê³¼: ì‚¬ì´ë²„ë³´ì•ˆì „ê³µ\n");
+	printf("í•™ë²ˆ: 1971063\n");
+	printf("ì„±ëª…: ê¹€ìœ¤ì„œ\n");
 	printf("====================\n");
 }
