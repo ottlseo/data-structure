@@ -22,13 +22,13 @@ int main() {
 
 	printf("Input data to insert to linkedlist <0 to quit>\n");
 	scanf_s("%d", &input);
-	
+
 	while (input != 0) { //오름차순으로 넣기
 		head = insert_sort(head, input);
 		print_list(head);
 		scanf_s("%d", &input);
 	} // 0넣으면 종료
-	
+
 	printf("Program finished.\n");
 	return 0;
 }
@@ -62,17 +62,13 @@ ListNode* insert(ListNode* head, ListNode* pre, int value) {
 ListNode* insert_sort(ListNode* head, int value) {
 	if (head == NULL) { return insert_first(head, value); }  //빈 리스트일 때.
 	else if (head->link == NULL) { //노드가 1개일 때.
-		ListNode* p = (ListNode*)malloc(sizeof(ListNode)); //삽입할 노드 생성
-		if (value >= head->num) { //더 큰 값이면 헤드 뒤에 삽입
-			p->num = value; //값 삽입
-			head->link = p;
-			return head;
-		} else { return insert_first(head, value); } //더 작은 값이면 맨 앞에.
+		if (value >= head->num) { return insert(head, head, value); } //더 큰 값이면 헤드 뒤에 삽입
+		else { return insert_first(head, value); } //더 작은 값이면 맨 앞에.
 	}
 	ListNode* pre = head; // 노드 생성 -반복문에 이용
 	if (value <= (head->num)) { return insert_first(head, value); } //가장 작을 경우.
 	while (pre->link != NULL) { //pre는 head에서부터 끝까지
-		
+
 		if (value >= (pre->num) && value <= (pre->link->num)) { //맞는 위치 찾으면, 삽입하고 반환
 			return insert(head, pre, value);
 		}
