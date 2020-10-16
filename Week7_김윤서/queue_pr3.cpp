@@ -1,4 +1,4 @@
-/* 7-3. ¿¬°á¸®½ºÆ®·Î ±¸ÇöÇÑ Å¥ ÄÚµå */
+/* 7-3. ì—°ê²°ë¦¬ìŠ¤íŠ¸ë¡œ êµ¬í˜„í•œ í ì½”ë“œ */
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 5
@@ -15,7 +15,7 @@ typedef struct QueueType {
 
 void error(const char* message);
 void init(QueueType* q);
-bool is_full(QueueType* q); //fullÀÏ ¼ö´Â ¾øÀ½
+bool is_full(QueueType* q); //fullì¼ ìˆ˜ëŠ” ì—†ìŒ
 bool is_empty(QueueType* q);
 void enqueue(QueueType* q, element item);
 element dequeue(QueueType* q);
@@ -25,12 +25,12 @@ int main() {
 	QueueType* q = (QueueType*)malloc(sizeof(QueueType));
 	init(q);
 
-	printf("<µ¥ÀÌÅÍ Ãß°¡>\n");
+	printf("<ë°ì´í„° ì¶”ê°€>\n");
 	for (int i = 0; i < 5; i++) {
 		enqueue(q, i+1);
 		print_queue(q);
 	}
-	printf("\n<µ¥ÀÌÅÍ °¡Á®¿À±â>\n");
+	printf("\n<ë°ì´í„° ê°€ì ¸ì˜¤ê¸°>\n");
 	for (int i = 0; i < 5; i++) {
 		dequeue(q); print_queue(q);
 	}
@@ -42,19 +42,19 @@ void error(const char* message) {
 	exit(1);
 }
 void init(QueueType* q) {
-	q->front = q->rear = NULL; //¿¬°á¸®½ºÆ® Å¥ ÃÊ±âÈ­: front,rear ¸ğµÎ NULL·Î ¼³Á¤
+	q->front = q->rear = NULL; //ì—°ê²°ë¦¬ìŠ¤íŠ¸ í ì´ˆê¸°í™”: front,rear ëª¨ë‘ NULLë¡œ ì„¤ì •
 }
-bool is_full(QueueType* q) { //fullÀÏ ¼ö´Â ¾øÀ½
+bool is_full(QueueType* q) { //fullì¼ ìˆ˜ëŠ” ì—†ìŒ
 	return 0;
 }
 bool is_empty(QueueType* q) {
-	return (q->front == NULL); //front°¡ NULLÀÌ¸é empty
+	return (q->front == NULL); //frontê°€ NULLì´ë©´ empty
 }
 void enqueue(QueueType* q, element item) {
 	QueueNode* temp = (QueueNode*)malloc(sizeof(QueueNode));
 	temp->data = item;
 	temp->link = NULL;
-	if (is_empty(q)) { //ÇÏ³ªµµ ¾øÀ» °æ¿ì. (ºó Å¥ÀÏ °æ¿ì)
+	if (is_empty(q)) { //í•˜ë‚˜ë„ ì—†ì„ ê²½ìš°. (ë¹ˆ íì¼ ê²½ìš°)
 		q->front = temp;
 		q->rear = temp;
 	} else {
@@ -65,12 +65,10 @@ void enqueue(QueueType* q, element item) {
 element dequeue(QueueType* q) {
 	if (is_empty(q)) { error("queue is empty"); }
 	QueueNode* temp = q->front;
-	element data = temp->data;
-	if (q->front == q->rear) { //³ëµå°¡ ÇÑ °³ÀÖ´Â °æ¿ì- ºó Å¥·Î ¸¸µé¾îÁÜ
-		q->front = q->rear = NULL; 
-	} else { q->front = q->front->link; } //else- frontÀ§Ä¡¸¦ ¿Å°ÜÁØ´Ù
-	
-	free(temp); //dequeueÇÑ ³ëµå µ¿ÀûÇÒ´çÀ» Ç®¾îÁØ´Ù
+	element data = temp->data; //ë¦¬í„´í•  ê°’
+	q->front = q->front->link; //frontìœ„ì¹˜ë¥¼ ì˜®ê²¨ì¤€ë‹¤
+	if (q->front == NULL) { q->rear = NULL; } //frontê°€ NULL -ë…¸ë“œê°€ í•œ ê°œìˆëŠ” ê²½ìš° --ë¹ˆ íë¡œ ë§Œë“¤ì–´ì¤Œ
+	free(temp); //dequeueí•œ ë…¸ë“œ ë™ì í• ë‹¹ì„ í’€ì–´ì¤€ë‹¤
 	return data;
 }
 void print_queue(QueueType* q) {
@@ -79,6 +77,6 @@ void print_queue(QueueType* q) {
 		printf("%3d  :", temp->data);
 		temp = temp->link;
 	}
-	/* for(QueueNode* temp= q->front; temp!=NULL; temp=temp->link){} ·Î ÇØµµ ok */
+	/* for(QueueNode* temp= q->front; temp!=NULL; temp=temp->link){} ë¡œ í•´ë„ ok */
 	printf("\n");
 }
