@@ -120,8 +120,64 @@ typedef struct QueueType {
 } QueueType;
 ```
 #### • init   
+*//front와 rear가 모두 NULL*
+```
+q->front = q->rear = NULL;
+```
+
 #### • is_full   
+**//연결리스트에서 full은 불가능함**
+```
+return 0;
+```
 #### • is_empty   
+front 또는 rear가 NULL일 때!
+```
+return (q->front == NULL);
+```
+
 #### • enqueue   
+*//여기선 is_full이 아니라 empty 체크해줘야하는 것 주의! (인큐 디큐 모두 empty 체크)*   
+**[enqueue 순서]**   
+1) temp 생성 (data넣고, temp->link는 NULL)   
+2) is_empty(q) 체크--> front와 rear 모두 temp로 지정 (q->front = q->rear = temp;)   
+3) else일 경우--> rear 뒤에 붙여주기. rear->link를 temp로 하고, rear도 바꿔주기   
+```
+QueueNode* temp = (QueueNode*)malloc(sizeof(QueueNode));
+	temp->data = item;
+	temp->link = NULL;
+	if (is_empty(q)) { //하나도 없을 경우. (빈 큐일 경우)
+		q->front = temp;
+		q->rear = temp;
+	} else {
+		q->rear->link = temp;
+		q->rear = temp;
+	}
+```
+
 #### • dequeue   
+*// 노드 한 개 있는 경우 추가로 체크해주기*   
+**[dequeue 순서]**   
+1) temp에 front 넣어준다 (data는 temp->data)   
+2) front 옮겨준다 (q->front = q->front->link)   
+3) if (q->front==NULL) { q->rear=NULL; } //한 개있었을 경우, 빈 큐로 만들어주기   
+4) free(temp) return data;   
+```
+if (is_empty(q)) { error("queue is empty"); }
+	QueueNode* temp = q->front;
+	element data = temp->data; //리턴할 값
+	q->front = q->front->link; //front위치를 옮겨준다
+	if (q->front == NULL) { q->rear = NULL; } //front가 NULL -노드가 한 개있는 경우 --빈 큐로 만들어줌
+	free(temp); //dequeue한 노드 동적할당을 풀어준다
+	return data;
+```
 #### • print_queue   
+```
+QueueNode* temp = q->front;
+	while (temp != NULL) {
+		printf("%3d  :", temp->data);
+		temp = temp->link;
+	}
+	printf("\n");
+```
+/* for(QueueNode* temp= q->front; temp!=NULL; temp=temp->link){} 로 해도 ok */
