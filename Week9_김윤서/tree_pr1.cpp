@@ -1,4 +1,4 @@
-/* ÀÌÁøÆ®¸® traversal */
+/* ì´ì§„íŠ¸ë¦¬ traversal */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,21 +15,21 @@ TreeNode n5 = { 5,&n3,&n4 };
 TreeNode n6 = { 6,&n2,&n5 };
 TreeNode *root = &n6;
 
-void inorder(TreeNode* root) { /* ÁßÀ§ ¼øÈ¸ (LVR) */
+void inorder(TreeNode* root) { /* ì¤‘ìœ„ ìˆœíšŒ (LVR) */
 	if (root) {
 		inorder(root->left);
 		printf("[%d]", root->data);
 		inorder(root->right);
 	}
 }
-void preorder(TreeNode* root) { /* ÀüÀ§ ¼øÈ¸ (VLR) */
+void preorder(TreeNode* root) { /* ì „ìœ„ ìˆœíšŒ (VLR) */
 	if (root) {
 		printf("[%d]", root->data);
 		preorder(root->left);
 		preorder(root->right);
 	}
 }
-void postorder(TreeNode* root) { /* ÈÄÀ§ ¼øÈ¸ (LRV) */
+void postorder(TreeNode* root) { /* í›„ìœ„ ìˆœíšŒ (LRV) */
 	if (root) {
 		postorder(root->left);
 		postorder(root->right);
