@@ -1,0 +1,116 @@
+/* radix sort */
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+#define MAX_QUEUE_SIZE 100
+#define BUCKETS 10 //십진수
+#define DIGITS 4 //최대 4자리수까지 가능
+#define SIZE 10
+
+void printInfo(void);
+
+/*------------------ Queue func ------------------*/
+typedef int element;
+typedef struct QueueType {
+	int front, rear;
+	element data[MAX_QUEUE_SIZE]; //큐
+}QueueType;
+
+void error(const char* message) {
+	fprintf(stderr, "%s\n", message);
+	exit(1);
+}
+void init_queue(QueueType* q) { //큐 초기화 함수
+	q->front = q->rear = 0;
+}
+int is_empty(QueueType* q) {
+	return (q->front == q->rear); //front와 rear가 같으면 empty
+}
+int is_full(QueueType* q) {
+	return ((q->rear + 1) % MAX_QUEUE_SIZE == q->front); //원형 큐로 구현, rear+1이 front와 같으면 포화
+}
+void enqueue(QueueType* q, element item) {
+	if (is_full(q))
+		error("Queue is full");
+	q->rear = (q->rear + 1) % MAX_QUEUE_SIZE;
+	q->data[q->rear] = item;
+}
+element dequeue(QueueType* q) {
+	if (is_empty(q))
+		error("Queue is empty");
+	q->front = (q->front + 1) % MAX_QUEUE_SIZE; //front를 하나 당겨주고 
+	return q->data[q->front]; //front에 있는 값을 리턴한다
+}
+
+/*------------------ radix_sort func ------------------*/
+void print_bucket(QueueType* q) { //각 단계의 버킷을 출력하는 함수
+	if (!is_empty(q)){
+		int i = q->front;
+		do {
+			i = (i + 1) % MAX_QUEUE_SIZE;
+			printf("%d | ", q->data[i]);
+			if (i == q->rear)break;
+		} while (i != q->front);
+		//printf("\n");
+	}
+}
+void radix_sort(int list[], int n, int digit) { //자릿수(digit)까지 매개변수로 받기
+	int i, buc, dig, factor = 1;
+	QueueType queue[BUCKETS];
+
+	for (buc = 0; buc < BUCKETS; buc++) init_queue(&queue[buc]); //큐 초기화
+
+	for (dig = 0; dig < digit; dig++) { // 자릿수에 따라 반복문 돌림
+		for (i = 0; i < n; i++)
+			enqueue(&queue[(list[i] / factor) % 10], list[i]); //데이터들을 자리수에 따라 큐에 삽입
+		
+		for (int i = 0; i < SIZE; i++) { //단계별 bucket을 출력
+			printf("\n[%d]", i);  //[0] [1] ... [10] 까지 출력
+			print_bucket(&queue[i]); //해당 큐에 들어있는 숫자 출력
+		}
+		printf("\n");
+
+		for (buc = i = 0; buc < BUCKETS; buc++) { //버킷에서 꺼내어 list로 합치는 과정
+			while (!is_empty(&queue[buc])) //비어있지 않으면
+				list[i++] = dequeue(&queue[buc]);
+		}
+		factor *= 10; //자릿수를 결정하는 factor *10
+	}
+}
+
+/*------------------ main ------------------*/
+int main() {
+	printInfo(); //정보 출력
+	
+	int list[SIZE];
+	int dig; //자릿수
+	printf("자릿수 입력(1~4): ");
+	scanf_s("%d", &dig);
+
+	srand(time(NULL));
+	for (int i = 0; i < SIZE; i++)
+		list[i] = rand() % ((int)pow((int)10,(int)dig)); //종료값을 10의 dig만큼 제곱으로 설정해서 자릿수를 맞춘다
+
+	printf("\n< Before Sorting >\n");
+	for (int i = 0; i < SIZE; i++)
+		printf("%d ", list[i]);
+
+	radix_sort(list, SIZE, dig);
+	
+	printf("\n< After Radix Sorting >\n");
+	for (int i = 0; i < SIZE; i++)
+		printf("%d ", list[i]);
+	printf("\n");
+
+	return 0;
+}
+
+void printInfo(void) {
+	printf("====================\n");
+	printf("학과: 사이버보안전공\n");
+	printf("학번: 1971063\n");
+	printf("성명: 김윤서\n");
+	printf("====================\n");
+}
