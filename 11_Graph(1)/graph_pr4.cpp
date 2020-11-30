@@ -1,43 +1,44 @@
+/* 4. DFS_ì¸ì ‘ë¦¬ìŠ¤íŠ¸ ver. */
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 50
 
 typedef struct GraphType {
-	int n; //vertexÀÇ °³¼ö
-	int adj_matrix[MAX][MAX]; //vertex ¹è¿­
+	int n; //vertexì˜ ê°œìˆ˜
+	int adj_matrix[MAX][MAX]; //vertex ë°°ì—´
 }GraphType;
 
 int visited[MAX];
 
 void init(GraphType* g) {
-	/* init ¼ø¼­: (1) g->n=0; (2) ¸ğµç ¿ø¼Ò ÃÊ±âÈ­ */
+	/* init ìˆœì„œ: (1) g->n=0; (2) ëª¨ë“  ì›ì†Œ ì´ˆê¸°í™” */
 	g->n = 0;
 	for (int r = 0; r < MAX; r++) {
 		for (int c = 0; c < MAX; c++)
-			g->adj_matrix[r][c] = 0; //¸ğµç ¿ø¼Ò 0À¸·Î ÃÊ±âÈ­
+			g->adj_matrix[r][c] = 0; //ëª¨ë“  ì›ì†Œ 0ìœ¼ë¡œ ì´ˆê¸°í™”
 	}
 }
 void insert_vertex(GraphType* g, int value) {
 	if (g->n + 1 > MAX) {
-		fprintf(stderr,"±×·¡ÇÁ: Á¤Á¡ÀÇ °³¼ö ÃÊ°ú\n");
+		fprintf(stderr,"ê·¸ë˜í”„: ì •ì ì˜ ê°œìˆ˜ ì´ˆê³¼\n");
 		return;
 	}
-	else g->n++; //vertex°³¼ö Áõ°¡
+	else g->n++; //vertexê°œìˆ˜ ì¦ê°€
 }
 void insert_edge(GraphType* g, int start, int end) {
 	if (start >= g->n || end >= g->n) {
-		fprintf(stderr,"±×·¡ÇÁ: Á¤Á¡ ¹øÈ£ ¿À·ù\n");
+		fprintf(stderr,"ê·¸ë˜í”„: ì •ì  ë²ˆí˜¸ ì˜¤ë¥˜\n");
 		return;
 	}
 	g->adj_matrix[start][end] = 1;
-	g->adj_matrix[end][start] = 1; //´ëÄª À§Ä¡¿¡ ¸ğµÎ 1·Î set
+	g->adj_matrix[end][start] = 1; //ëŒ€ì¹­ ìœ„ì¹˜ì— ëª¨ë‘ 1ë¡œ set
 }
 void dfs_matrix(GraphType* g, int value) {
 	int w;
 	visited[value] = true;
 	printf("vertex%d ", value);
 	for (w = 0; w < g->n; w++) {
-		if (g->adj_matrix[value][w]==1 && !visited[w]) //¾ÆÁ÷ ¹æ¹® ¾ÈÇß°í °ªÀÌ ÀÖÀ¸¸é dfs ´Ù½Ã 
+		if (g->adj_matrix[value][w]==1 && !visited[w]) //ì•„ì§ ë°©ë¬¸ ì•ˆí–ˆê³  ê°’ì´ ìˆìœ¼ë©´ dfs ë‹¤ì‹œ 
 			dfs_matrix(g, w);
 	}
 }
