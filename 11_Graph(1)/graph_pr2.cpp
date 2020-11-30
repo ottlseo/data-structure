@@ -1,3 +1,4 @@
+/* 2. ì¸ì ‘ë¦¬ìŠ¤íŠ¸ ì½”ë“œ */
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 50
@@ -8,36 +9,36 @@ typedef struct GraphNode {
 }GraphNode;
 
 typedef struct GraphType {
-	int n; //vertex °³¼ö
-	GraphNode* adj_list[MAX]; //vertex °³¼ö Å©±âÀÇ Æ÷ÀÎÅÍ ¹è¿­
+	int n; //vertex ê°œìˆ˜
+	GraphNode* adj_list[MAX]; //vertex ê°œìˆ˜ í¬ê¸°ì˜ í¬ì¸í„° ë°°ì—´
 }GraphType;
 
 void init(GraphType* g) {
-	g->n = 0; //³ëµå ¼ö 0À¸·Î ÃÊ±âÈ­
+	g->n = 0; //ë…¸ë“œ ìˆ˜ 0ìœ¼ë¡œ ì´ˆê¸°í™”
 	for (int i = 0; i < MAX; i++) 
-		g->adj_list[i] = NULL; //¸ğµç vertex NULL·Î ÃÊ±âÈ­
+		g->adj_list[i] = NULL; //ëª¨ë“  vertex NULLë¡œ ì´ˆê¸°í™”
 }
 void insert_vertex(GraphType* g, int value) {
-	if (g->n + 1 > MAX) { //¿¹¿ÜÃ³¸®
-		fprintf(stderr, "±×·¡ÇÁ: Á¤Á¡ÀÇ °³¼ö ÃÊ°ú");
+	if (g->n + 1 > MAX) { //ì˜ˆì™¸ì²˜ë¦¬
+		fprintf(stderr, "ê·¸ë˜í”„: ì •ì ì˜ ê°œìˆ˜ ì´ˆê³¼");
 		return;
 	}
-	else g->n++; //vertex°³¼ö Áõ°¡
+	else g->n++; //vertexê°œìˆ˜ ì¦ê°€
 }
 void insert_edge(GraphType* g, int u, int value) {
 	if (u >= g->n || value >= g->n) {
-		fprintf(stderr, "±×·¡ÇÁ: Á¤Á¡ ¹øÈ£ ¿À·ù");
+		fprintf(stderr, "ê·¸ë˜í”„: ì •ì  ë²ˆí˜¸ ì˜¤ë¥˜");
 		return;
 	}
 	GraphNode* node = (GraphNode*)malloc(sizeof(GraphNode));
-	node->vertex = value; //°ª ³Ö°í
-	node->link = g->adj_list[u]; //u¸®½ºÆ®ÀÇ ¸Ç ¾Õ¿¡ ¿¬°á
-	g->adj_list[u] = node; //insertµÈ ³ëµå°¡ ¸Ç¾Õ vertex°¡ µÊ
+	node->vertex = value; //ê°’ ë„£ê³ 
+	node->link = g->adj_list[u]; //uë¦¬ìŠ¤íŠ¸ì˜ ë§¨ ì•ì— ì—°ê²°
+	g->adj_list[u] = node; //insertëœ ë…¸ë“œê°€ ë§¨ì• vertexê°€ ë¨
 }
 void print_adj_list(GraphType* g) {
 	for (int i = 0; i < g->n; i++) {
-		GraphNode* temp = g->adj_list[i]; //°¢ vertex¸¶´Ù ¹İº¹ÇØ¼­ Ãâ·Â
-		printf("vertex %dÀÇ adj list ", i);
+		GraphNode* temp = g->adj_list[i]; //ê° vertexë§ˆë‹¤ ë°˜ë³µí•´ì„œ ì¶œë ¥
+		printf("vertex %dì˜ adj list ", i);
 		while (temp != NULL) {
 			printf(" -> %d ", temp->vertex);
 			temp = temp->link;
@@ -53,7 +54,7 @@ int main() {
 	for (int i = 0; i < 4; i++)
 		insert_vertex(g, i);
 	insert_edge(g, 0, 1);
-	insert_edge(g, 1, 0); //´ëÄª¾Æ´Ï¾î¼­, Á÷Á¢ ¾ç¹æÇâÀ¸·Î ³Ö¾îÁà¾ßÇÑ´Ù
+	insert_edge(g, 1, 0); //ëŒ€ì¹­ì•„ë‹ˆì–´ì„œ, ì§ì ‘ ì–‘ë°©í–¥ìœ¼ë¡œ ë„£ì–´ì¤˜ì•¼í•œë‹¤
 	insert_edge(g, 0, 2);
 	insert_edge(g, 2, 0);
 	insert_edge(g, 0, 3);
